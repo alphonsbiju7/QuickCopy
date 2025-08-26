@@ -55,9 +55,11 @@ app.use((req, res, next) => {
 
   // Port (default 5000)
   const port = parseInt(process.env.PORT || "5000", 10);
+  
+  // Host configuration - use HOST env var, fallback to production/development logic
+  const host = process.env.HOST || (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1");
 
-  // ✅ Simpler, cross-platform listen
-  server.listen(port, "127.0.0.1", () => {
-    log(`serving on http://localhost:${port}`);
+  server.listen(port, host, () => {
+    log(`serving on http://${host === "0.0.0.0" ? "0.0.0.0" : "localhost"}:${port}`);
   });
 })();
